@@ -1,0 +1,13 @@
+Card1 3 6 9 A
+Card2 5 7 8 4
+Card3 6 2 9 3
+Card4 A 3 7 5
+Card5 4 8 6 9
+Card6 7 9 A 2
+Card7 2 4 6 8
+Card8 9 7 3 A
+Card9 6 5 8 4
+Card10 A 9 2 7
+Card11 8 6 4 3
+Card12 3 7 5 A
+Card13 4 A 9 6
