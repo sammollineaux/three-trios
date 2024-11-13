@@ -42,4 +42,14 @@ public class Player implements IntPlayer {
   public List<Card> getHand() {
     return new ArrayList<>(hand);
   }
+
+  /**
+   * Sets the player's hand to a specified list of cards.
+   *
+   * @param cards the list of cards to set as the player's hand
+   */
+  public void setHand(List<Card> cards) {
+    hand.clear();
+    hand.addAll(cards);
+  }
 }

@@ -1,8 +1,12 @@
+import java.io.FileNotFoundException;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * This class represents the Three Trios game, managing the grid, players, and the game flow.
  */
-public class Game {
-  private final Grid grid;
+public class Game implements ThreeTriosModel {
+  private Grid grid;
   private final Player redPlayer;
   private final Player bluePlayer;
   private Player currentPlayer;
@@ -144,6 +148,34 @@ public class Game {
   }
 
   /**
+   * @return
+   */
+  @Override
+  public int[] getGridDimensions() {
+    return new int[]{grid.getRows(), grid.getCols()};
+  }
+
+  /**
+   * @param row
+   * @param col
+   * @return
+   */
+  @Override
+  public Object getCellContents(int row, int col) {
+    return null;
+  }
+
+  /**
+   * @param row
+   * @param col
+   * @return
+   */
+  @Override
+  public String getCardOwner(int row, int col) {
+    return "";
+  }
+
+  /**
    * Checks if the game is over by verifying that all card cells are filled.
    *
    * @return true if the game is over (i.e., all card cells are filled), false otherwise.
@@ -159,4 +191,85 @@ public class Game {
     }
     return true;
   }
+
+  /**
+   * @param color
+   * @return
+   */
+  @Override
+  public int getPlayerScore(String color) {
+    return 0;
+  }
+
+  /**
+   * Sets up the game by loading grid and card configurations from file paths.
+   *
+   * @param gridFilePath path to the grid configuration file
+   * @param cardFilePath path to the card configuration file
+   */
+  public void setupGame(String gridFilePath, String cardFilePath) throws FileNotFoundException {
+    this.grid = FileReader.loadGrid(gridFilePath);
+    List<Card> cards = FileReader.loadCards(cardFilePath);
+    redPlayer.setHand(Collections.singletonList((Card) cards.subList(0, cards.size() / 2)));
+    bluePlayer.setHand(Collections.singletonList((Card) cards.subList(cards.size() / 2, cards.size())));
+  }
+
+  /**
+   * Given a card and a coordinate, calculates how many cards can be flipped by playing the card
+   * at the specified coordinate.
+   *
+   * @param cardIndex the index of the card in the player's hand
+   * @param row the row coordinate on the grid
+   * @param col the column coordinate on the grid
+   * @return the number of opponent cards that would be flipped
+   */
+  public int getFlipCount(int cardIndex, int row, int col) {
+    Card card = currentPlayer.getHand().get(cardIndex);
+    int flipCount = 0;
+
+    Direction[] directions = {Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
+    int[][] directionOffsets = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+    for (int i = 0; i < directions.length; i++) {
+      Direction direction = directions[i];
+      int newRow = row + directionOffsets[i][0];
+      int newCol = col + directionOffsets[i][1];
+
+      if (newRow >= 0 && newRow < grid.getDimensions()[0] && newCol >= 0 && newCol < grid.getDimensions()[1]) {
+        Cell adjacentCell = grid.getCellContents(newRow, newCol);
+
+        if (adjacentCell != null && !adjacentCell.getOwner().equals(currentPlayer.getColor())) {
+          Card opponentCard = adjacentCell.getCard();
+          Direction oppositeDirection = getOppositeDirection(direction);
+          int opponentDefense = opponentCard.getAttackValue(oppositeDirection);
+
+          if (card.getAttackValue(direction) > opponentDefense) {
+            flipCount++;
+          }
+        }
+      }
+    }
+    return flipCount;
+  }
+
+  /**
+   * Returns the list of cards in the red player's hand.
+   *
+   * @return a list of objects representing the red player's hand
+   */
+  @Override
+  public List<Card> getRedPlayerHand() {
+    return redPlayer.getHand();
+  }
+
+  /**
+   * Returns the list of cards in the blue player's hand.
+   *
+   * @return a list of objects representing the blue player's hand
+   */
+  @Override
+  public List<Card> getBluePlayerHand() {
+    return bluePlayer.getHand();
+  }
+
 }

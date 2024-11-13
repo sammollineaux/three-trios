@@ -52,5 +52,10 @@ public class Card {
       default: throw new IllegalArgumentException("Invalid direction.");
     }
   }
+
+  @Override
+  public String toString() {
+    return String.format("%d\n%d %s %d\n%d", north, west, name, east, south);
+  }
 }
 

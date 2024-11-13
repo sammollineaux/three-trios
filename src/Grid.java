@@ -37,6 +37,9 @@ public class Grid implements IntGrid {
   }
 
   public Cell getCell(int row, int col) {
+    if (row < 0 || row >= rows || col < 0 || col >= cols) {
+      throw new IllegalArgumentException("Invalid cell coordinates");
+    }
     return grid[row][col];
   }
 
@@ -67,5 +70,16 @@ public class Grid implements IntGrid {
       throw new IllegalArgumentException("Invalid move.");
     }
     grid[row][col].placeCard(card, player);
+  }
+
+  public int[] getDimensions() {
+    return new int[]{this.rows, this.cols};
+  }
+
+  public Cell getCellContents(int row, int col) {
+    if (row < 0 || row >= rows || col < 0 || col >= cols) {
+      throw new IllegalArgumentException("Invalid cell coordinates");
+    }
+    return grid[row][col];
   }
 }
