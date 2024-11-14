@@ -161,8 +161,11 @@ public class Game implements ThreeTriosModel {
    * @return
    */
   @Override
-  public Object getCellContents(int row, int col) {
-    return null;
+  public Cell getCellContents(int row, int col) {
+    if (row < 0 || row >= grid.getRows() || col < 0 || col >= grid.getCols()) {
+      throw new IllegalArgumentException("Invalid cell coordinates");
+    }
+    return grid.getCell(row, col);
   }
 
   /**

@@ -6,11 +6,18 @@ import java.util.List;
  * without allowing modification, ensuring that views can only observe and not mutate the model.
  */
 public interface ReadOnlyThreeTriosModel {
+
   int[] getGridDimensions();
+
   Object getCellContents(int row, int col);
+
   List<Card> getRedPlayerHand();
+
   List<Card> getBluePlayerHand();
+
   String getCardOwner(int row, int col);
+
   boolean isGameOver();
+
   int getPlayerScore(String color);
 }

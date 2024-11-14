@@ -65,3 +65,17 @@ making it easy to set up game layouts and decks.
 5. Display - TextView
 The TextView provides a simple, text-based display of the game state,
 showing the grid with player-owned cells and the current player’s hand of cards.
+
+-- PART 2 --
+
+1. One of the first interfaces that was added was the ReadOnlyThreeTriosModel interface and this was
+to make sure that the view would not be able to be mutated.
+
+2. Then I created 3 different interfaces for the view. These interfaces do not have any use yet but
+will allow for flexibility in the future. The first interface was made for the Frame while the other
+2 deal with the grid panels and the hand panels.
+
+3. Last new class was the view, and this handles loading the grid, the hands, and the colors.
+
+4. I also had to add new methods to my Game class to ensure that the model view had the
+functionality it needed to run.
